@@ -36,7 +36,9 @@ class GrooveCPM():
             "money": response_decoded.get("money"),
             "smoke": response_decoded.get("smoke"),
             "w16": response_decoded.get("w16"),
-            "house": response_decoded.get("house")
+            "house": response_decoded.get("house"),
+            "race_win": response_decoded.get("race_win"),
+            "race_lose": response_decoded.get("race_lose")
         }
     
     def set_coin(self, amount: int):
@@ -146,6 +148,22 @@ class GrooveCPM():
     def delete_friends(self):
         payload = { "auth": self.auth_token, "key": self.access_key }
         response = requests.post(f"{BASE_URL}/delete_friends", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+    
+    def set_race_win(self, amount: int):
+        payload = { "auth": self.auth_token, "key": self.access_key, "amount": amount }
+        response = requests.post(f"{BASE_URL}/set_race_win", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+    
+    def set_race_lose(self, amount: int):
+        payload = { "auth": self.auth_token, "key": self.access_key, "amount": amount }
+        response = requests.post(f"{BASE_URL}/set_race_lose", json=payload)
         response_decoded = response.json()
         if response_decoded.get("error"):
             return response_decoded.get("error")
