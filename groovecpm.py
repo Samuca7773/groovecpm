@@ -38,7 +38,9 @@ class GrooveCPM():
             "w16": response_decoded.get("w16"),
             "house": response_decoded.get("house"),
             "race_win": response_decoded.get("race_win"),
-            "race_lose": response_decoded.get("race_lose")
+            "race_lose": response_decoded.get("race_lose"),
+            "gasoline": response_decoded.get("gasoline"),
+            "engine_damage": response_decoded.get("engine_damage")
         }
     
     def set_coin(self, amount: int):
@@ -164,6 +166,30 @@ class GrooveCPM():
     def set_race_lose(self, amount: int):
         payload = { "auth": self.auth_token, "key": self.access_key, "amount": amount }
         response = requests.post(f"{BASE_URL}/set_race_lose", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+        
+    def set_player_rank(self):
+        payload = { "auth": self.auth_token, "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_player_rank", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+    
+    def unlimited_gasoline(self):
+        payload = { "auth": self.auth_token, "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlimited_gasoline", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+        
+    def disable_engine_damage(self):
+        payload = { "auth": self.auth_token, "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/disable_engine_damage", json=payload)
         response_decoded = response.json()
         if response_decoded.get("error"):
             return response_decoded.get("error")

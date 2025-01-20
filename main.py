@@ -76,70 +76,86 @@ def get_data():
     data = cpm.get_player_data()
     #id
     if data.get("localid") is not None:
-        console.print(f" [[bold red]![/bold red]][bold white] ID                >[/bold white] [bold red]{data.get('localid')}[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] ID                 >[/bold white] [bold red]{data.get('localid')}[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] ID                >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] ID                 >[/bold white] [bold red]INDEFINIDO[/bold red]")
     
     # nome
     if data.get("name") is not None:
-        console.print(f" [[bold red]![/bold red]][bold white] NOME              >[/bold white] [bold red]{data.get('name')}[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] NOME               >[/bold white] [bold red]{data.get('name')}[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] NOME              >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] NOME               >[/bold white] [bold red]INDEFINIDO[/bold red]")
     
     # coin
     if data.get("coin") is not None:
-        console.print(f" [[bold red]![/bold red]][bold white] COINS             >[/bold white] [bold red]{data.get('coin')}[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] COINS              >[/bold white] [bold red]{data.get('coin')}[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] COINS             >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] COINS              >[/bold white] [bold red]INDEFINIDO[/bold red]")
     
     # money
     if data.get("money") is not None:
-        console.print(f" [[bold red]![/bold red]][bold white] DINHEIROS         >[/bold white] [bold red]{data.get('money')}[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] DINHEIROS          >[/bold white] [bold red]{data.get('money')}[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] DINHEIROS         >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] DINHEIROS          >[/bold white] [bold red]INDEFINIDO[/bold red]")
     
     # fumaça
     if data.get("smoke") == 1.0:
-        console.print(f" [[bold red]![/bold red]][bold white] FUMAÇA            >[/bold white] [bold red]LIBERADA[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] FUMAÇA             >[/bold white] [bold red]LIBERADA[/bold red]")
     elif data.get("smoke") == 0.0:
-        console.print(f" [[bold red]![/bold red]][bold white] FUMAÇA            >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] FUMAÇA             >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] FUMAÇA            >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] FUMAÇA             >[/bold white] [bold red]INDEFINIDO[/bold red]")
         
     # w16
     if data.get("w16") == 1.0:
-        console.print(f" [[bold red]![/bold red]][bold white] W16               >[/bold white] [bold red]LIBERADA[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] W16                >[/bold white] [bold red]LIBERADA[/bold red]")
     elif data.get("w16") == 0.0:
-        console.print(f" [[bold red]![/bold red]][bold white] W16               >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] W16                >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] W16               >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] W16                >[/bold white] [bold red]INDEFINIDO[/bold red]")
         
     # casa paga
     if data.get("house") == 1:
-        console.print(f" [[bold red]![/bold red]][bold white] CASA PAGA         >[/bold white] [bold red]LIBERADA[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CASA PAGA          >[/bold white] [bold red]LIBERADA[/bold red]")
     elif data.get("house") == 0:
-        console.print(f" [[bold red]![/bold red]][bold white] CASA PAGA         >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CASA PAGA          >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] CASA PAGA         >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CASA PAGA          >[/bold white] [bold red]INDEFINIDO[/bold red]")
     # corridas ganhas
     if data.get("race_win"):
-        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS GANHAS   >[/bold white] [bold red]{data.get('race_win')}[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS GANHAS    >[/bold white] [bold red]{data.get('race_win')}[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS GANHAS   >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS GANHAS    >[/bold white] [bold red]INDEFINIDO[/bold red]")
     
     # Corridas perdidas 
     if data.get("race_lose"):
-        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS PERDIDAS >[/bold white] [bold red]{data.get('race_lose')}[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS PERDIDAS  >[/bold white] [bold red]{data.get('race_lose')}[/bold red]")
     else:
-        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS PERDIDAS >[/bold white] [bold red]INDEFINIDO[/bold red]")
+        console.print(f" [[bold red]![/bold red]][bold white] CORRIDAS PERDIDAS  >[/bold white] [bold red]INDEFINIDO[/bold red]")
+    
+    # Gasolina
+    if data.get("gasoline") == 1.0:
+        console.print(f" [[bold red]![/bold red]][bold white] GASOLINA ILIMITADA >[/bold white] [bold red]LIBERADA[/bold red]")
+    elif data.get("gasoline") == 0.0:
+        console.print(f" [[bold red]![/bold red]][bold white] GASOLINA ILIMITADA >[/bold white] [bold red]NÃO LIBERADA[/bold red]")
+    else:
+        console.print(f" [[bold red]![/bold red]][bold white] GASOLINA ILIMITADA >[/bold white] [bold red]INDEFINIDO[/bold red]")
+    
+    # Motor 
+    if data.get("engine_damage") == 1.0:
+        console.print(f" [[bold red]![/bold red]][bold white] MOTOR INQUEBRAVEL  >[/bold white] [bold red]LIBERADO[/bold red]")
+    elif data.get("engine_damage") == 0.0:
+        console.print(f" [[bold red]![/bold red]][bold white] MOTOR INQUEBRAVEL  >[/bold white] [bold red]NÃO LIBERADO[/bold red]")
+    else:
+        console.print(f" [[bold red]![/bold red]][bold white] MOTOR INQUEBRAVEL   >[/bold white] [bold red]INDEFINIDO[/bold red]")
     console.print("\n")
         
 
 def menu():
     clear()
     console.print(" [bold white]INFORMAÇÕES[/bold white]")
-    console.print(" [[bold red]![/bold red]] [bold white]DONO              > [/bold white][bold red]t.me/Samuca_007[/bold red]")
-    console.print(" [[bold red]![/bold red]] [bold white]PAINEL            > [/bold white][bold red]VIP[/bold red]")
+    console.print(" [[bold red]![/bold red]] [bold white]DONO               > [/bold white][bold red]t.me/Samuca_007[/bold red]")
+    console.print(" [[bold red]![/bold red]] [bold white]PAINEL             > [/bold white][bold red]VIP[/bold red]")
     get_data()
     console.print(" [bold white]MENU[/bold white]")
     console.print(" [[bold red]01[/bold red]][bold white] INJETAR COIN[/bold white]")
@@ -158,6 +174,9 @@ def menu():
     console.print(" [[bold red]14[/bold red]][bold white] DELETAR AMIGOS[/bold white]")
     console.print(" [[bold red]15[/bold red]][bold white] ALTERAR CORRIDAS GANHAS[/bold white]")
     console.print(" [[bold red]16[/bold red]][bold white] ALTERAR CORRIDAS PERDIDAS[/bold white]")
+    console.print(" [[bold red]17[/bold red]][bold white] KING RANK[/bold white]")
+    console.print(" [[bold red]18[/bold red]][bold white] GASOLINA ILIMITADA[/bold white]")
+    console.print(" [[bold red]19[/bold red]][bold white] MOTOR INQUEBRAVEL[/bold white]")
     console.print(" [[bold red]00[/bold red]][bold white] SAIR[/bold white]")
     
     
@@ -405,6 +424,37 @@ def menu():
         sleep(2)
         menu()
     
+    # King rank
+    elif service == "17":
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        response = cpm.set_player_rank()
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sys.stdout.flush()
+        sleep(2)
+        menu()
+    
+    # Gasolina Ilimitada
+    elif service == "18":
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        response = cpm.unlimited_gasoline()
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sys.stdout.flush()
+        sleep(2)
+        menu()
+        
+    # Desativar dano ao motor
+    elif service == "19":
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        response = cpm.disable_engine_damage()
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sys.stdout.flush()
+        sleep(2)
+        menu()
+        
+    # Sair do sistema
     elif service == "00":
         console.print(" [[bold red]![/bold red]] [bold white]SAINDO..[/bold white]")
     else:
