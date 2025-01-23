@@ -177,6 +177,7 @@ def menu():
     console.print(" [[bold red]17[/bold red]][bold white] KING RANK[/bold white]")
     console.print(" [[bold red]18[/bold red]][bold white] GASOLINA ILIMITADA[/bold white]")
     console.print(" [[bold red]19[/bold red]][bold white] MOTOR INQUEBRAVEL[/bold white]")
+    console.print(" [[bold red]20[/bold red]][bold white] CLONAR CARROS[/bold white]")
     console.print(" [[bold red]00[/bold red]][bold white] SAIR[/bold white]")
     
     
@@ -453,7 +454,25 @@ def menu():
         sys.stdout.flush()
         sleep(2)
         menu()
+    
+    # Clonar conta
+    elif service == "20":
+        email = console.input(" [[bold red]?[/bold red]][bold white] DIGITE O EMAIL QUE IRÁ RECEBER >> [bold white]")
+        password = console.input(" [[bold red]?[/bold red]][bold white] DIGITE A SENHA >> [/bold white]")
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        if not email or not password:
+            sleep(1)
+            sys.stdout.write(f"\033[1;31mNADA PODE FICAR EM BRANCO\033[0m\n")
+            sys.stdout.flush()
+            sleep(2)
+            menu()
         
+        response = cpm.clone_cars(email, password)
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sleep(2)
+        menu()
+    
     # Sair do sistema
     elif service == "00":
         console.print(" [[bold red]![/bold red]] [bold white]SAINDO..[/bold white]")

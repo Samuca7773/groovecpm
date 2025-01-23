@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL: str = "https://Samuca007.pythonanywhere.com"
+BASE_URL: str = "http://localhost:8080"
 
 class GrooveCPM():
     def __init__(self, access_key: str) -> None:
@@ -194,3 +194,12 @@ class GrooveCPM():
         if response_decoded.get("error"):
             return response_decoded.get("error")
         return response_decoded.get("message")
+    
+    def clone_cars(self, email: str, password: str):
+        payload = { "auth": self.auth_token, "key": self.access_key, "email": email, "password": password }
+        response = requests.post(f"{BASE_URL}/clone_cars", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+    
