@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL: str = "Samuca007.pythonanywhere.com"
+BASE_URL: str = "https://Samuca007.pythonanywhere.com"
 
 class GrooveCPM():
     def __init__(self, access_key: str) -> None:
