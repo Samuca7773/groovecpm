@@ -178,6 +178,9 @@ def menu():
     console.print(" [[bold red]18[/bold red]][bold white] GASOLINA ILIMITADA[/bold white]")
     console.print(" [[bold red]19[/bold red]][bold white] MOTOR INQUEBRAVEL[/bold white]")
     console.print(" [[bold red]20[/bold red]][bold white] CLONAR CARROS[/bold white]")
+    console.print(" [[bold red]21[/bold red]][bold white] COMPLETAR TODOS LEVELS[/bold white]")
+    console.print(" [[bold red]22[/bold red]][bold white] RESETAR TODOS LEVELS[/bold white]")
+    console.print(" [[bold red]23[/bold red]][bold white] SIRENE EM TODOS CARROS[/bold white]")
     console.print(" [[bold red]00[/bold red]][bold white] SAIR[/bold white]")
     
     
@@ -473,6 +476,35 @@ def menu():
         sleep(2)
         menu()
     
+    # Completar todos levels
+    elif service == "21":
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        response = cpm.complete_all_levels()
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sys.stdout.flush()
+        sleep(2)
+        menu()
+    
+    # Resetar todos levels
+    elif service == "22":
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        response = cpm.reset_all_levels()
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sys.stdout.flush()
+        sleep(2)
+        menu()
+    
+    # Sirene
+    elif service == "23":
+        sys.stdout.write(" [\033[1;33m%\033[1;97m] PROCESSANDO: \033[0m")
+        sys.stdout.flush()
+        response = cpm.siren_all_cars()
+        sys.stdout.write(f"\033[1;31m{response}\033[0m\n")
+        sys.stdout.flush()
+        sleep(2)
+        menu()
     # Sair do sistema
     elif service == "00":
         console.print(" [[bold red]![/bold red]] [bold white]SAINDO..[/bold white]")

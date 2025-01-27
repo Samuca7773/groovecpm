@@ -1,5 +1,4 @@
 import requests
-
 BASE_URL: str = "https://Samuca007.pythonanywhere.com"
 
 class GrooveCPM():
@@ -203,3 +202,26 @@ class GrooveCPM():
             return response_decoded.get("error")
         return response_decoded.get("message")
     
+    def complete_all_levels(self):
+        payload = { "auth": self.auth_token, "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/complete_all_levels", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+    
+    def reset_all_levels(self):
+        payload = { "auth": self.auth_token, "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/reset_all_levels", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
+        
+    def siren_all_cars(self):
+        payload = { "auth": self.auth_token, "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/siren_all_cars", json=payload)
+        response_decoded = response.json()
+        if response_decoded.get("error"):
+            return response_decoded.get("error")
+        return response_decoded.get("message")
