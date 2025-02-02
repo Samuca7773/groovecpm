@@ -1,227 +1,243 @@
+# Feito por t.me/Samuca_007
 import requests
-BASE_URL: str = "https://Samuca007.pythonanywhere.com"
-
-class GrooveCPM():
-    def __init__(self, access_key: str) -> None:
+BASE_URL: str = "https://groovecpm-api.onrender.com"
+class GrooveCPM:
+    def __init__(self, access_key) -> None:
         self.auth_token = None
         self.access_key = access_key
     
-    def login(self, email: str, password: str, ip: str, region: str, country: str) -> int:
-        payload = {
-            "account_email": email,
-            "account_password": password,
-            "key": self.access_key,
-            "ip": ip,
-            "region": region,
-            "country": country
-        }
-        response = requests.post(f"{BASE_URL}/account_login", json=payload)
+    @staticmethod
+    def get_color():
+        response = requests.get(f"{BASE_URL}/get_color")
         response_decoded = response.json()
-        if response_decoded.get("success"):
+        return response_decoded.get("colors")
+        
+    def login(self, email: str, password: str):
+        payload = { "email": email, "password": password }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/login", json=payload, params=params)
+        response_decoded = response.json()
+        if response_decoded.get("ok"):
             self.auth_token = response_decoded.get("auth")
-            return response_decoded.get("message")
         return response_decoded.get("error")
     
-    def get_player_data(self) -> any:
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/get_data", json=payload)
+        
+    def get_player_data(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/get_player_data", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return {
-            "localid": response_decoded.get("localid"),
-            "name": response_decoded.get("name"),
-            "coin": response_decoded.get("coin"),
-            "money": response_decoded.get("money"),
-            "smoke": response_decoded.get("smoke"),
-            "w16": response_decoded.get("w16"),
-            "house": response_decoded.get("house"),
-            "race_win": response_decoded.get("race_win"),
-            "race_lose": response_decoded.get("race_lose"),
-            "gasoline": response_decoded.get("gasoline"),
-            "engine_damage": response_decoded.get("engine_damage")
-        }
+        if response_decoded.get("ok"):
+            return response_decoded
+        return response_decoded.get("error")
     
-    def set_coin(self, amount: int):
-        payload = { "auth": self.auth_token, "amount": amount, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/set_coin", json=payload)
+    def get_key_data(self):
+        params = { "key": self.access_key }
+        response = requests.get(f"{BASE_URL}/get_key_data", params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
+        if response_decoded.get("ok"):
+            return response_decoded
+        return response_decoded.get("error")
+        
+    def delete(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/delete", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+    
+    def set_player_rank(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_player_rank", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def set_coin(self, amount: int):
+        payload = { "auth": self.auth_token, "amount": amount}
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_coin", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def set_money(self, amount: int):
+        payload = { "auth": self.auth_token, "amount": amount}
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_money", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def set_name(self, new_name: str):
+        payload = { "auth": self.auth_token, "new_name": new_name}
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_name", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def set_name_rainbow(self, new_name: str):
+        payload = { "auth": self.auth_token, "new_name": new_name}
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_name_rainbow", json=payload, params=params)
+        response_decoded = response.json()
         return response_decoded.get("message")
         
-    def set_money(self, amount: int):
-        payload = { "auth": self.auth_token, "amount": amount, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/set_money", json=payload)
+    def set_id(self, new_id: str):
+        payload = { "auth": self.auth_token, "new_id": new_id}
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_id", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
         return response_decoded.get("message")
-    
-    def unlock_cosmetics(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_cosmetics", json=payload)
+     
+    def unlock_all_cosmetics(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_all_cosmetics", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
+        return response_decoded.get("message")
+     
+    def unlock_all_animations(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_all_animations", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+         
+    def delete_friends(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/delete_friends", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def unlock_w16(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_w16", json=payload, params=params)
+        response_decoded = response.json()
         return response_decoded.get("message")
     
     def unlock_wheels(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_wheels", json=payload)
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_wheels", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def unlock_animations(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_animations", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def set_id(self, new_id: str):
-        payload = { "auth": self.auth_token, "key": self.access_key, "id": new_id }
-        response = requests.post(f"{BASE_URL}/set_id", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def set_name(self, new_name: str):
-        payload = { "auth": self.auth_token, "key": self.access_key, "name": new_name }
-        response = requests.post(f"{BASE_URL}/set_name", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
         return response_decoded.get("message")
         
-    def unlock_buzines(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_buzines", json=payload)
+    def unlock_horns(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_horns", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
         return response_decoded.get("message")
-    
-    def unlock_all_cars(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_all_cars", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def delete_account(self):
-        payload = { "auth": self.auth_token, "key": self.access_key } 
-        response = requests.post(f"{BASE_URL}/delete_account", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def unlock_smoke(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_smoke", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def unlock_w16(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_w16", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def unlock_house(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlock_house", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-        
-    def delete_friends(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/delete_friends", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def set_race_win(self, amount: int):
-        payload = { "auth": self.auth_token, "key": self.access_key, "amount": amount }
-        response = requests.post(f"{BASE_URL}/set_race_win", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def set_race_lose(self, amount: int):
-        payload = { "auth": self.auth_token, "key": self.access_key, "amount": amount }
-        response = requests.post(f"{BASE_URL}/set_race_lose", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-        
-    def set_player_rank(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/set_player_rank", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def unlimited_gasoline(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/unlimited_gasoline", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-        
+     
     def disable_engine_damage(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/disable_engine_damage", json=payload)
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/disable_engine_damage", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
+        return response_decoded.get("message")
+     
+    def unlimited_fuel(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlimited_fuel", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def delete_friends(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/delete_friends", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def set_race_win(self, amount: int):
+        payload = { "auth": self.auth_token, "amount": amount }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_race_win", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+         
+    def set_race_lose(self, amount: int):
+        payload = { "auth": self.auth_token, "amount": amount }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/set_race_lose", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+         
+    def unlock_house(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_house", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def unlock_smoke(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_smoke", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def unlock_all_cars(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_all_cars", json=payload, params=params)
+        response_decoded = response.json()
         return response_decoded.get("message")
     
-    def clone_cars(self, email: str, password: str):
-        payload = { "auth": self.auth_token, "key": self.access_key, "email": email, "password": password }
-        response = requests.post(f"{BASE_URL}/clone_cars", json=payload)
+    def unlock_all_paid_cars(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_all_paid_cars", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def complete_all_levels(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/complete_all_levels", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
-        return response_decoded.get("message")
-    
-    def reset_all_levels(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/reset_all_levels", json=payload)
-        response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
         return response_decoded.get("message")
         
-    def siren_all_cars(self):
-        payload = { "auth": self.auth_token, "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/siren_all_cars", json=payload)
+    def unlock_all_cars_sirens(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_all_cars_sirens", json=payload, params=params)
         response_decoded = response.json()
-        if response_decoded.get("error"):
-            return response_decoded.get("error")
+        return response_decoded.get("message")
+     
+    def unlock_all_levels(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/unlock_all_levels", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+     
+    def reset_all_levels(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/reset_all_levels", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+         
+    def clone_cars(self, email: str, password: str):
+        payload = { "auth": self.auth_token, "email": email, "password": password }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/clone_cars", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+    
+    def clone(self, email: str, password: str):
+        payload = { "auth": self.auth_token, "email": email, "password": password }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/clone", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+    
+    def remove_front_parts(self, car_id: str):
+        payload = { "auth": self.auth_token, "id": car_id }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/remove_front_parts", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+    
+    def remove_back_parts(self, car_id: str):
+        payload = { "auth": self.auth_token, "id": car_id }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/remove_back_parts", json=payload, params=params)
+        response_decoded = response.json()
         return response_decoded.get("message")
