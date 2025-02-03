@@ -7,10 +7,9 @@ from rich.prompt import Prompt
 from groovecpm import GrooveCPM
 import sys
 console = Console()
-enter_pressed = False
 
 __TELEGRAM__ = "t.me/Samuca_007"
-# red, orange
+colors = ["FF0000", "FFA500", "FFFF00", "FFA500"]
 interrogation = "[?]"
 process = "[%]"
 attention = "[!]"
@@ -47,27 +46,11 @@ def center_text(text):
     
 
 def gradient_text(text, symbol='', end=""):
-    if color_data and len(color_data) >= 4:  # Verifica se tem pelo menos 4 cores
-        gradient_text = Gradient(text, colors=[color_data[0], color_data[1], color_data[2], color_data[3]])
-    elif color_data and len(color_data) >= 2:  # Verifica se tem pelo menos 2 cores
-        gradient_text = Gradient(text, colors=[color_data[0], color_data[1]])
-    else:
-        console.print("Erro ao processar cores!")
-        sys.exit(0)
-    
-    console.print(f"[bold white]{symbol}[bold white]", style="white", end='')
+    gradient_text = Gradient(f"{symbol}{text}", colors=[colors[0], colors[1], colors[2], colors[3]]) 
     console.print(gradient_text, end=end)
 
 def gradient_input(prompt_text, symbol, end=' '):
-    if color_data and len(color_data) >= 4:
-        gradient_text = Gradient(prompt_text, colors=[color_data[0], color_data[1], color_data[2], color_data[3]]) 
-    elif color_data and len(color_data) >= 2:
-        gradient_text = Gradient(prompt_text, colors=[color_data[0], color_data[1]]) 
-    else: 
-        console.print("Erro ao processar cores!")
-        sys.exit(0) 
-
-    console.print(symbol, style="white", end=end) 
+    gradient_text = Gradient(f"{symbol} {prompt_text}", colors=[colors[0], colors[1], colors[2], colors[3]])
     console.print(gradient_text, end=end) 
     user_input = input()
     return user_input
@@ -156,15 +139,16 @@ def menu():
     gradient_text(" RESETAR LEVELS", symbol="[23]", end='\n')
     gradient_text(" LIBERAR BUZINAS", symbol="[24]", end='\n')
     gradient_text(" CLONAR CARROS", symbol="[25]", end='\n')
-    gradient_text(" REMOVER PARTE DA FRENTE DO CARRO", symbol="[26]", end="\n")
-    gradient_text(" REMOVER PARTE DE TRÁS DO CARRO", symbol="[27]", end="\n")
+    gradient_text(" REMOVER FRENTE DO CARRO", symbol="[26]", end="\n")
+    gradient_text(" REMOVER TRÁS DO CARRO", symbol="[27]", end="\n")
+    gradient_text(" TODOS CARROS COM KM MAXÍMO", symbol="[28]", end="\n")
     gradient_text(" SAIR", symbol="[00]", end='\n')
     
     gradient_text("==============[ CPM ]==============", end="\n")
     service = gradient_input("DIGITE UM NÚMERO >>", symbol=interrogation)
     # Injetar Coin
     if service == "1":
-        amount = gradient_input("INFORME A QUANTIDADE >>", symbol=interrogation)
+        amount = gradient_input("QUANTIDADE >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not amount:
             console.print("NADA PODE FICAR EM BRANCO!", end="\n")
@@ -183,7 +167,7 @@ def menu():
         menu()
     
     elif service == "2":
-        amount = gradient_input("INFORME A QUANTIDADE >>", symbol=interrogation)
+        amount = gradient_input("QUANTIDADE >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not amount:
             console.print("NADA PODE FICAR EM BRANCO!", end="\n")
@@ -211,7 +195,7 @@ def menu():
     
     # ID Personalizado
     elif service == "4":
-        new_id = gradient_input("DIGITE O NOVO ID >>", symbol=interrogation)
+        new_id = gradient_input("NOVO ID >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not new_id:
             console.print("NADA PODE FICAR EM BRANCO!", end="\n")
@@ -224,7 +208,7 @@ def menu():
     
     # Nome grande
     elif service == "5":
-        new_name = gradient_input("DIGITE O NOVO NOME >>", symbol=interrogation)
+        new_name = gradient_input("NOVO NOME >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not new_name:
             console.print("NADA PODE FICAR EM BRANCO!", end="\n")
@@ -238,7 +222,7 @@ def menu():
     
     # Nome colorido
     elif service == "6":
-        new_name = gradient_input("DIGITE O NOVO NOME >>", symbol=interrogation)
+        new_name = gradient_input("NOVO NOME >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not new_name:
             console.print("NADA PODE FICAR EM BRANCO!", end="\n")
@@ -347,7 +331,7 @@ def menu():
     
     # Alterar corridas ganhas
     elif service == "18":
-        new_race = gradient_input("INFORME A QUANTIDADE >>", symbol=interrogation)
+        new_race = gradient_input("QUANTIDADE >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not new_race:
             console.print("NADA PODE FICAR EM BRANCO", end="\n")
@@ -367,7 +351,7 @@ def menu():
     
     # Alterar corridas perdidas
     elif service == "19":
-        new_race = gradient_input("INFORME A QUANTIDADE >>", symbol=interrogation)
+        new_race = gradient_input("QUANTIDADE >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not new_race:
             console.print("NADA PODE FICAR EM BRANCO", end="\n")
@@ -427,8 +411,8 @@ def menu():
     
     # Clonar carros
     elif service == "25":
-        email_clone = gradient_input("DIGITE O EMAIL >>", symbol=interrogation)
-        password_clone = gradient_input("DIGITE A SENHA >>", symbol=interrogation)
+        email_clone = gradient_input("EMAIL >>", symbol=interrogation)
+        password_clone = gradient_input("SENHA >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not email_clone or not password_clone:
             console.print("NADA PODE FICAR EM BRANCO", end="\n")
@@ -460,7 +444,7 @@ def menu():
         menu()
 
     elif service == "27":
-        car_id = gradient_input("DIGITE O ID >>", symbol=interrogation)
+        car_id = gradient_input("CARRO ID >>", symbol=interrogation)
         gradient_text(" PROCESSANDO: ", process)
         if not car_id:
             console.print("NADA PODE FICAR EM BRANCO", end="\n")
@@ -477,6 +461,14 @@ def menu():
         console.print(response)
         sleep(1)
         menu()
+    
+    elif service == "28":
+        gradient_text(" PROCESSANDO: ", process)
+        response = cpm.all_cars_max_mileage()
+        console.print(response, end="\n")
+        sleep(1)
+        menu()
+        
     # Sair do script
     elif service == "00":
         gradient_text(" SAINDO..", symbol=attention, end="\n")
@@ -487,6 +479,4 @@ def menu():
         sleep(1)
         menu()
 if __name__ == "__main__":
-    global color_data
-    color_data = GrooveCPM.get_color()
     login()

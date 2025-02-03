@@ -1,16 +1,12 @@
 # Feito por t.me/Samuca_007
 import requests
+
 BASE_URL: str = "https://groovecpm-api.onrender.com"
+
 class GrooveCPM:
     def __init__(self, access_key) -> None:
         self.auth_token = None
         self.access_key = access_key
-    
-    @staticmethod
-    def get_color():
-        response = requests.get(f"{BASE_URL}/get_color")
-        response_decoded = response.json()
-        return response_decoded.get("colors")
         
     def login(self, email: str, password: str):
         payload = { "email": email, "password": password }
@@ -20,7 +16,6 @@ class GrooveCPM:
         if response_decoded.get("ok"):
             self.auth_token = response_decoded.get("auth")
         return response_decoded.get("error")
-    
         
     def get_player_data(self):
         payload = { "auth": self.auth_token }
@@ -221,13 +216,6 @@ class GrooveCPM:
         response_decoded = response.json()
         return response_decoded.get("message")
     
-    def clone(self, email: str, password: str):
-        payload = { "auth": self.auth_token, "email": email, "password": password }
-        params = { "key": self.access_key }
-        response = requests.post(f"{BASE_URL}/clone", json=payload, params=params)
-        response_decoded = response.json()
-        return response_decoded.get("message")
-    
     def remove_front_parts(self, car_id: str):
         payload = { "auth": self.auth_token, "id": car_id }
         params = { "key": self.access_key }
@@ -241,3 +229,11 @@ class GrooveCPM:
         response = requests.post(f"{BASE_URL}/remove_back_parts", json=payload, params=params)
         response_decoded = response.json()
         return response_decoded.get("message")
+    
+    def all_cars_max_mileage(self):
+        payload = { "auth": self.auth_token }
+        params = { "key": self.access_key }
+        response = requests.post(f"{BASE_URL}/all_cars_max_milleage", json=payload, params=params)
+        response_decoded = response.json()
+        return response_decoded.get("message")
+        
