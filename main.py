@@ -1,18 +1,16 @@
-import os
+from pystyle import Colorate, Colors
+from groovecpm import GrooveCPM
 from time import sleep
 from rich.console import Console
-from rich_gradient import Gradient
-from rich.text import Text
-from rich.prompt import Prompt
-from groovecpm import GrooveCPM
-import sys
+import os, signal, sys
+
 console = Console()
 
-__TELEGRAM__ = "t.me/Samuca_007"
-colors = ["FF0000", "FFA500", "FFFF00", "FFA500"]
-interrogation = "[?]"
-process = "[%]"
-attention = "[!]"
+__TELEGRAM__ = "Samuca_007"
+__CHANNEL__ = "t.me/GrupoCarParking"
+
+def bold_rainbow_text(text):
+    return f"\033[1m{Colorate.Horizontal(Colors.green_to_cyan, text)}\033[0m"
 
 banner = '''
 ██╗░░██╗░█████╗░░█████╗░██╗░░██╗
@@ -31,452 +29,551 @@ banner2 = '''
 ░╚════╝░╚═╝░░░░░╚═╝░░░░░╚═╝
 '''
 
+def signal_handler(sig, frame):
+    print(bold_rainbow_text("[!] Saindo..."))
+    sys.exit(0)
 
-def clear():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
-        
 def center_text(text):
     width = console.width
     lines = text.splitlines()
     centered_lines = [line.center(width) for line in lines]
-    return "\n".join(centered_lines)        
-    
+    return "\n".join(centered_lines)
 
-def gradient_text(text, symbol='', end=""):
-    gradient_text = Gradient(f"{symbol}{text}", colors=[colors[0], colors[1], colors[2], colors[3]]) 
-    console.print(gradient_text, end=end)
+centered_banner1 = center_text(banner)
+centered_banner2 = center_text(banner2)
 
-def gradient_input(prompt_text, symbol, end=' '):
-    gradient_text = Gradient(f"{symbol} {prompt_text}", colors=[colors[0], colors[1], colors[2], colors[3]])
-    console.print(gradient_text, end=end) 
-    user_input = input()
-    return user_input
-
-
-
-
-def login():
-    clear()   
-    centered_banner = center_text(banner)
-    centered_banner2 = center_text(banner2)
-    gradient_text(centered_banner)
-    gradient_text(centered_banner2)
-    print("\n")
-    email = gradient_input("DIGITE SEU EMAIL >>", interrogation)
-    password = gradient_input("DIGITE SUA SENHA >>", interrogation)
-    access_key = gradient_input("DIGITE SUA CHAVE DE ACESSO >>", interrogation)
-    gradient_text(" PROCESSANDO: ", process)
-    if not email or not password or not access_key:
-        sleep(1)
-        console.print("NADA PODE FICAR EM BRANCO!")
-        sleep(1)
-        login()
-    
-    global cpm
-    cpm = GrooveCPM(access_key)
-    login_response = cpm.login(email, password)
-    if cpm.auth_token:
-        console.print("SUCESSO")
-        sleep(1)
-        menu()
-    else:
-        console.print(login_response)
-        sleep(1)
-        login()
-
-def load_player_data():
-    print("\n")
-    gradient_text("         DEUS SEJA LOUVADO", end="\n")
-    gradient_text("==========[ INFORMAÇÕES ]==========", end='\n')
-    data = cpm.get_player_data()
-    gradient_text(f" DONO      > t.me/Samuca_007", symbol=attention, end='\n')
-    gradient_text(f" NOME      > {data.get('name')} ", symbol=attention, end='\n')
-    gradient_text(f" ID        > {data.get('id')}", symbol=attention, end='\n')
-    gradient_text(f" COIN      > {data.get('coin')}", symbol=attention, end='\n')
-    gradient_text(f" DINHEIRO  > {data.get('money')}", symbol=attention, end='\n')
-    
-def load_key_data():
-    data = cpm.get_key_data()
-    gradient_text("========[ CHAVE DE ACESSO ]========", end='\n')
-    gradient_text(f" SUA CHAVE > {data.get('key')}", symbol=attention, end='\n')
-    gradient_text(f" VALIDADE  > {data.get('status')}", symbol=attention, end='\n')
-    gradient_text(f" TELEFONE  > {data.get('telefone')}", symbol=attention, end='\n')
-    
-def menu():
-    clear()
-    centered_banner = center_text(banner)
-    centered_banner2 = center_text(banner2)
-    gradient_text(centered_banner)
-    gradient_text(centered_banner2)
-    load_player_data()
-    load_key_data()
-    gradient_text("=============[ MENU ]==============", end="\n")
-    gradient_text(" INJETAR COIN", symbol="[01]", end='\n')
-    gradient_text(" INJETAR DINHEIRO", symbol="[02]", end='\n')
-    gradient_text(" KING RANK", symbol="[03]", end='\n')
-    gradient_text(" ID PERSONALIZADO", symbol="[04]", end='\n')
-    gradient_text(" NOME GRANDE", symbol="[05]", end='\n')
-    gradient_text(" NOME COLORIDO", symbol="[06]", end='\n')
-    gradient_text(" DELETAR CONTA", symbol="[07]", end='\n')
-    gradient_text(" DELETAR AMIGOS", symbol="[08]", end='\n')
-    gradient_text(" LIBERAR TODOS CARROS", symbol="[09]", end='\n')
-    gradient_text(" LIBERAR CARROS PAGOS", symbol="[10]", end='\n')
-    gradient_text(" SIRENE EM TODOS CARROS", symbol="[11]", end='\n')
-    gradient_text(" LIBERAR W16", symbol="[12]", end='\n')
-    gradient_text(" LIBERAR RODAS", symbol="[13]", end='\n')
-    gradient_text(" DESATIVAR DANO NO MOTOR", symbol="[14]", end='\n')
-    gradient_text(" GASOLINA ILIMITADA", symbol="[15]", end='\n')
-    gradient_text(" LIBERAR CASA PAGA", symbol="[16]", end='\n')
-    gradient_text(" LIBERAR FUMAÇA", symbol="[17]", end='\n')
-    gradient_text(" ALTERAR CORRIDAS GANHAS", symbol="[18]", end='\n')
-    gradient_text(" ALTERAR CORRIDAS PERDIDAS", symbol="[19]", end='\n')
-    gradient_text(" LIBERAR ANIMAÇÕES", symbol="[20]", end='\n')
-    gradient_text(" LIBERAR ROUPAS", symbol="[21]", end='\n')
-    gradient_text(" COMPLETAR LEVELS", symbol="[22]", end='\n')
-    gradient_text(" RESETAR LEVELS", symbol="[23]", end='\n')
-    gradient_text(" LIBERAR BUZINAS", symbol="[24]", end='\n')
-    gradient_text(" CLONAR CARROS", symbol="[25]", end='\n')
-    gradient_text(" REMOVER FRENTE DO CARRO", symbol="[26]", end="\n")
-    gradient_text(" REMOVER TRÁS DO CARRO", symbol="[27]", end="\n")
-    gradient_text(" TODOS CARROS COM KM MAXÍMO", symbol="[28]", end="\n")
-    gradient_text(" SAIR", symbol="[00]", end='\n')
-    
-    gradient_text("==============[ CPM ]==============", end="\n")
-    service = gradient_input("DIGITE UM NÚMERO >>", symbol=interrogation)
-    # Injetar Coin
-    if service == "1":
-        amount = gradient_input("QUANTIDADE >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not amount:
-            console.print("NADA PODE FICAR EM BRANCO!", end="\n")
-            sleep(1)
-            menu()
-        try:
-            amount_int = int(amount)
-        except ValueError:
-            console.print("ISSO NÃO É UM NÚMERO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.set_coin(amount_int)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    elif service == "2":
-        amount = gradient_input("QUANTIDADE >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not amount:
-            console.print("NADA PODE FICAR EM BRANCO!", end="\n")
-            sleep(1)
-            menu()
-        try:
-            amount_int = int(amount)
-        except ValueError:
-            console.print("ISSO NÃO É UM NÚMERO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.set_money(amount_int)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # King rank
-    elif service == "3":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.set_player_rank()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # ID Personalizado
-    elif service == "4":
-        new_id = gradient_input("NOVO ID >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not new_id:
-            console.print("NADA PODE FICAR EM BRANCO!", end="\n")
-            sleep(1)
-            menu()
-        response = cpm.set_id(new_id)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Nome grande
-    elif service == "5":
-        new_name = gradient_input("NOVO NOME >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not new_name:
-            console.print("NADA PODE FICAR EM BRANCO!", end="\n")
-            sleep(1)
-            menu()
-            
-        response = cpm.set_name(new_name)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Nome colorido
-    elif service == "6":
-        new_name = gradient_input("NOVO NOME >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not new_name:
-            console.print("NADA PODE FICAR EM BRANCO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.set_name_rainbow(new_name)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Deletar conta
-    elif service == "7":
-        confirm = gradient_input("DIGITE 'confirmar' >>", symbol=attention)
-        if confirm == 'confirmar':
-            gradient_text(" PROCESSANDO: ", process)
-            response = cpm.delete()
-            console.print(response, end="\n")
-            sleep(1)
-            login()
-        else:
-            gradient_text(" PROCESSANDO: ", process)
-            console.print("CANCELADA!", end="\n")
-            sleep(1)
-            menu()
-    
-    # Deletar amigos
-    elif service == "8":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.delete_friends()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Liberar todos carros
-    elif service == "9":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_all_cars()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Liberar carros pagos
-    elif service == "10":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_all_paid_cars()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-        
-    # liberar sirene em todos carros
-    elif service == "11":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_all_cars_sirens()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-   
-    # Liberar w16
-    elif service == "12":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_w16()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Desbloquear rodas 
-    elif service == "13":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_wheels()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Desbloquear engine damage
-    elif service == "14":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.disable_engine_damage()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-   
-   # Gasolina ilimitada
-    elif service == "15":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlimited_fuel()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Liberar casa paga
-    elif service == "16":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_house()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Liberar fumaça
-    elif service == "17":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_smoke()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Alterar corridas ganhas
-    elif service == "18":
-        new_race = gradient_input("QUANTIDADE >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not new_race:
-            console.print("NADA PODE FICAR EM BRANCO", end="\n")
-            sleep(1)
-            menu()
-        try:
-            new_race_int = int(new_race)
-        except ValueError:
-            console.print("ISSO NÃO É UM NÚMERO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.set_race_win(new_race_int)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Alterar corridas perdidas
-    elif service == "19":
-        new_race = gradient_input("QUANTIDADE >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not new_race:
-            console.print("NADA PODE FICAR EM BRANCO", end="\n")
-            sleep(1)
-            menu()
-        try:
-            new_race_int = int(new_race)
-        except ValueError:
-            console.print("ISSO NÃO É UM NÚMERO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.set_race_lose(new_race_int)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-        
-    # Liberar animações
-    elif service == "20":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_all_animations()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Liberar roupas
-    elif service == "21":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_all_cosmetics()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Completar todos levels
-    elif service == "22":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_all_levels()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Resetar todos levels
-    elif service == "23":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.reset_all_levels()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Liberar buzinas
-    elif service == "24":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.unlock_horns()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Clonar carros
-    elif service == "25":
-        email_clone = gradient_input("EMAIL >>", symbol=interrogation)
-        password_clone = gradient_input("SENHA >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not email_clone or not password_clone:
-            console.print("NADA PODE FICAR EM BRANCO", end="\n")
-            sleep(1)
-            menu()
-        response = cpm.clone_cars(email_clone, password_clone)
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-    
-    # Remover parte da frente do carro
-    elif service == "26":
-        car_id = gradient_input("DIGITE O ID >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not car_id:
-            console.print("NADA PODE FICAR EM BRANCO", end="\n")
-            sleep(1)
-            menu()
-        try:
-            car_id_int = int(car_id)
-        except ValueError:
-            console.print("ISSO NÃO É UM NÚMERO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.remove_front_parts(car_id_int)
-        console.print(response)
-        sleep(1)
-        menu()
-
-    elif service == "27":
-        car_id = gradient_input("CARRO ID >>", symbol=interrogation)
-        gradient_text(" PROCESSANDO: ", process)
-        if not car_id:
-            console.print("NADA PODE FICAR EM BRANCO", end="\n")
-            sleep(1)
-            menu()
-        try:
-            car_id_int = int(car_id)
-        except ValueError:
-            console.print("ISSO NÃO É UM NÚMERO!", end="\n")
-            sleep(1)
-            menu()
-        
-        response = cpm.remove_back_parts(car_id_int)
-        console.print(response)
-        sleep(1)
-        menu()
-    
-    elif service == "28":
-        gradient_text(" PROCESSANDO: ", process)
-        response = cpm.all_cars_max_mileage()
-        console.print(response, end="\n")
-        sleep(1)
-        menu()
-        
-    # Sair do script
-    elif service == "00":
-        gradient_text(" SAINDO..", symbol=attention, end="\n")
+def load_player_data(cpm):
+    response = cpm.get_player_data()
+    if response.get('error'):
+        print(bold_rainbow_text("[!] ERROR: DADOS NÃO FORAM BUSCADOS CORRETAMENTE!"))
         sys.exit(0)
-    # Caso o usuário digite um numero invalido
+    if 'localid' in response and 'coins' in response and 'moneys' and 'Name' in response:
+        print(bold_rainbow_text("===========[ PLAYER DETALHES ]=========="))
+        print(bold_rainbow_text(f"|NOME     : {response.get('Name', 'INDEFINIDO')}"))
+        print(bold_rainbow_text(f"|ID       : {response.get('localid', 'INDEFINIDO')}"))
+        print(bold_rainbow_text(f"|COINS    : {response.get('coins', 'INDEFINIDO')}"))
+        print(bold_rainbow_text(f"|DINHEIRO : ${response.get('moneys', 'INDEFINIDO')}"))
     else:
-        gradient_text(" OPÇÃO INVÁLIDA!", symbol=attention, end="\n")
-        sleep(1)
-        menu()
+        print(bold_rainbow_text("[!] ERROR: DADOS AUSENTE NA RESPOSTA DO SERVIDOR!"))
+        sys.exit(0)
+
+def load_key_data(cpm):
+    response = cpm.get_key_data()
+    if response.get('error'):
+        print(bold_rainbow_text("[!] ERROR: DADOS NÃO FORAM BUSCADOS CORRETAMENTE!"))
+        sys.exit(0)
+    print(bold_rainbow_text("============[ KEY DETALHES ]============"))
+    print(bold_rainbow_text(f"| CHAVE   : {response.get('access_key')}"))
+    print(bold_rainbow_text(f"|VALIDADE : {response.get('expire')}"))
+
 if __name__ == "__main__":
-    login()
+    signal.signal(signal.SIGINT, signal_handler)
+    while True:
+        os.system("cls") if os.name == 'nt' else os.system('clear')
+        print(bold_rainbow_text(centered_banner1))
+        print(bold_rainbow_text(centered_banner2))
+        print("\n")
+        print(bold_rainbow_text("[?] INSIRA SEU EMAIL: "), end="")
+        acc_email = input()
+        print(bold_rainbow_text("[?] INSIRA SUA SENHA: "), end="")
+        acc_password = input()
+        print(bold_rainbow_text("[?] CHAVE DE ACESSO : "), end="")
+        access_key = input()
+        console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+        if not acc_email or not acc_password or not access_key:
+            sleep(1)
+            print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+            sleep(1)
+            continue
+        cpm = GrooveCPM(access_key)
+        login = cpm.auth(acc_email, acc_password)
+        if not cpm.auth_token:
+            print(bold_rainbow_text(f"{login.get('message')}"))
+            sleep(1)
+            continue
+        print(bold_rainbow_text("SUCESSO"))
+        sleep(1)
+        while True:
+            os.system("cls") if os.name == 'nt' else os.system("clear")
+            print(bold_rainbow_text(centered_banner1))
+            print(bold_rainbow_text(centered_banner2))
+            load_player_data(cpm)
+            load_key_data(cpm)
+            print(bold_rainbow_text("================[ MENU ]================"))
+            for i, option in enumerate([
+                "CUSTOM COIN", "CUSTOM MONEY", "KING RANK", "CUSTOM ID", "CUSTOM NOME",
+                "DELETAR CONTA", "DELETAR AMIGOS", "LIBERAR CARROS PAGOS", "LIBERAR TODOS CARROS",
+                "LIBERAR SIRENE EM CARROS", "LIBERAR CARRO POR ID", "LIBERAR SIRENE POR ID",
+                "CUSTOM TORQUE EM CARRO POR ID", "REMOVER FRENTE DO CARRO POR ID",
+                "REMOVER TRÁS DO CARRO POR ID", "LIBERAR KM MÁXIMO EM TODOS CARROS",
+                "LIBERAR KM MÁXIMO EM CARRO POR ID", "LIBERAR W16", "LIBERAR BUZINAS",
+                "DESATIVAR DANO NO MOTOR", "LIBERAR GASOLINA ILIMITADA", "LIBERAR CASA PAGA",
+                "LIBERAR FUMAÇA", "LIBERAR RODAS", "LIBERAR ANIMAÇÕES", "LIBERAR ROUPAS",
+                "CUSTOM CORRIDAS GANHAS", "CUSTOM CORRIDAS PERDIDAS", "COMPLETAR LEVELS",
+                "RESETAR LEVELS", "CLONAR CARROS"
+            ], start=1):
+                print(bold_rainbow_text(f"|[{i:02}] {option}"))
+            print(bold_rainbow_text("|[00] SAIR"))
+            print(bold_rainbow_text("================[ CPM✩ ]================"))
+            service = input(bold_rainbow_text("[?] SELECIONE O SERVIÇO: "))
+            
+            # Custom Coin
+            if service == "1" or service == 1:
+                print(bold_rainbow_text("[?] VALOR: "), end="")
+                amount = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                if not amount:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    amount_int = int(amount)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS!"), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_player_coin(amount)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Custom Money
+            elif service == "2" or service == 2:
+                print(bold_rainbow_text("[?] VALOR: "), end="")
+                amount = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                if not amount:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    amount_int = int(amount)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS!"), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_player_money(amount)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # King Rank
+            elif service == "3" or service == 3:
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                response = cpm.set_player_rank()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+                
+            # Set ID
+            elif service == "4" or service == 4:
+                print(bold_rainbow_text("[?] NOVO ID: "), end="")
+                new_id = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                if not new_id:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_player_id(new_id)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Set Name
+            elif service == "5" or service == 5:
+                print(bold_rainbow_text("[?] NOVO NOME: "), end="")
+                new_name = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                if not new_name:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_player_name(new_name)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Delete Account
+            elif service == "6" or service == 6:
+                print(bold_rainbow_text("[?] DIGITE confirmar: "), end="")
+                confirm = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                if not confirm:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                if str(confirm) == 'confirmar':
+                    response = cpm.delete_account()
+                    print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                    sleep(1)
+                    break
+                else:
+                    sleep(1)
+                    print(bold_rainbow_text("CANCELANDO OPERAÇÃO"), end="\n")
+                    sleep(1)
+                    continue
+            
+            # Delete Friends
+            elif service == 7 or service == "7":
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                response = cpm.delete_friends()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Unlock paid cars
+            elif service == 8 or service == "8":
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                response = cpm.unlock_paid_cars()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Unlock all cars
+            elif service == 9 or service == "9":
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                response = cpm.unlock_all_cars()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Unlock siren in cars
+            elif service == 10 or service == "10":
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                response = cpm.unlock_all_cars_sirens()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Unlock car id
+            elif service == 11 or service == "11":
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end="")
+                car_id = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end='')
+                if not car_id:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    car_id_int = int(car_id)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS"), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.unlock_car_id(car_id_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+
+            # Unlock siren id
+            elif service == 12 or service == "12":
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end="")
+                car_id = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end='')
+                if not car_id:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    car_id_int = int(car_id)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS"), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.unlock_siren_id(car_id_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Custom torque
+            elif service == 13 or service == "13":
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end="")
+                car_id = input()
+                print(bold_rainbow_text("[?] DIGITE O NOVO TORQUE: "), end="")
+                new_torque = input()
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end='')
+                if not car_id or not new_torque:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    car_id_int = int(car_id)
+                    new_torque_int = int(new_torque)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS"))
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_torque(car_id_int, new_torque_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Remove front parts
+            elif service == 14 or service == "14":
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end='')
+                car_id = input()
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end="")
+                if not car_id:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    car_id_int = int(car_id)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS"))
+                    sleep(1)
+                    continue
+                
+                response = cpm.remove_front_part(car_id_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+                
+            # Remove back parts
+            elif service == 15 or service == "15":
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end='')
+                car_id = input()
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end="")
+                if not car_id:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    car_id_int = int(car_id)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text("DIGITE APENAS NÚMEROS"))
+                    sleep(1)
+                    continue
+                
+                response = cpm.remove_back_part(car_id_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Unlock all cars max milleage
+            elif service == 16 or service == "16":
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
+                response = cpm.unlock_all_cars_max_milleage()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
+                sleep(1)
+                continue
+            
+            # Unlock car id max milleage 
+            elif service == 17 or service == '17':
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end='')
+                car_id = input()
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                if not car_id:
+                    sleep(1)
+                    print(bold_rainbow_text('NÃO DEIXE NADA EM BRANCO'), end='\n')
+                    sleep(1)
+                    continue
+                
+                try:
+                    car_id_int = int(car_id)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text('DIGITE APENAS NÚMEROS'), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.unlock_car_id_max_milleage(car_id_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlock W16
+            elif service == 18 or service == '18':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_w16()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlock horns
+            elif service == 19 or service == '19':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_horns()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Disable Engine Damage
+            elif service == 20 or service == '20':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.disable_engine_damage()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlimited Fuel
+            elif service == 21 or service == '21':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlimited_fuel()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlock House
+            elif service == 22 or service == '22':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_house()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+                
+            # Unlock Smoke
+            elif service == 23 or service == '23':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_smoke()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlock Wheels
+            elif service == 24 or service == '24':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_wheels()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+                
+            # Unlock Animations
+            elif service == 25 or service == '25':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_animations()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlock Cosmetics
+            elif service == 26 or service == '26':
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_cosmetics()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Set Races Wins
+            elif service == 27 or service == '27':
+                print(bold_rainbow_text('[?] QUANTIDADE: '), end='')
+                amount = input()
+                console.print('[bold white][%] PROCESSANDO: ', end='')
+                if not amount:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    amount_int = int(amount)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text('DIGITE APENAS NÚMEROS'), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_races_wins(amount_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Set Races Loses
+            elif service == 28 or service == '28':
+                print(bold_rainbow_text('[?] QUANTIDADE: '), end='')
+                amount = input()
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                if not amount:
+                    sleep(1)
+                    print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
+                    sleep(1)
+                    continue
+                
+                try:
+                    amount_int = int(amount)
+                except ValueError:
+                    sleep(1)
+                    print(bold_rainbow_text('DIGITE APENAS NÚMEROS'), end="\n")
+                    sleep(1)
+                    continue
+                
+                response = cpm.set_races_loses(amount_int)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Complete All Levels
+            elif service == 29 or service == '29':
+                console.print("[bold white][%] PROCESSANDO: ", end='')
+                response = cpm.complete_all_levels()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Reset All Levels
+            elif service == 30 or service == '30':
+                console.print("[bold white][%] PROCESSANDO: ", end='')
+                response = cpm.reset_all_levels()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Clone Cars
+            elif service == 31 or service == '31':
+                print(bold_rainbow_text('[?] EMAIL RECEBEDOR: '), end='')
+                clon_email = input()
+                print(bold_rainbow_text('[?] SENHA: '), end='')
+                clon_password = input()
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
+                
+                if not clon_email or not clon_password:
+                    sleep(1)
+                    print(bold_rainbow_text('NÃO DEIXE NADA EM BRANCO'), end='\n')
+                    sleep(1)
+                    continue
+                
+                response = cpm.clone_cars(clon_email, clon_password)
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            elif service == 00 or service == '00' or service == 0 or service == '0':
+                print(bold_rainbow_text('[!] Saindo...'))
+                sys.exit(0)
+            
+            else:
+                print(bold_rainbow_text('[!] OPCÃO INVÁLIDA'))
+                sleep(1)
+                continue
