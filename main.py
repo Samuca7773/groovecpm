@@ -45,7 +45,7 @@ def center_text(text):
 
 centered_banner1 = center_text(banner)
 centered_banner2 = center_text(banner2)
-    
+
 def load_player_data(cpm):
     response = cpm.get_player_data()
     if response.get('error'):
@@ -53,16 +53,10 @@ def load_player_data(cpm):
         sys.exit(0)
     if 'localid' in response and 'coins' in response and 'moneys' and 'Name' in response:
         print(bold_rainbow_text("==============[ PLAYER DETALHES ]============="))
-        print(bold_rainbow_text(f"  >> EMAIL    : "), end="")
-        console.print(f"[bold white]{acc_email}[/bold white]", end="\n")
-        print(bold_rainbow_text(f"  >> NOME     : "), end="")
-        console.print(f"[bold white]{response.get('Name', 'INDEFINIDO')}[/bold white]", end="\n")
-        print(bold_rainbow_text(f"  >> ID       : "), end="")
-        console.print(f"[bold white]{response.get('localid', 'INDEFINIDO')}[/bold white]", end="\n")
-        print(bold_rainbow_text(f"  >> COINS    : "), end="")
-        console.print(f"[bold white]{response.get('coins', 'INDEFINIDO')}[/bold white]", end="\n")
-        print(bold_rainbow_text(f"  >> DINHEIRO : "), end="")
-        console.print(f"[bold white]{response.get('moneys', 'INDEFINIDO')}[/bold white]", end="\n")
+        print(bold_rainbow_text(f"  >> NOME     : {response.get('Name', 'INDEFINIDO')}"))
+        print(bold_rainbow_text(f"  >> ID       : {response.get('localid', 'INDEFINIDO')}"))
+        print(bold_rainbow_text(f"  >> COINS    : {response.get('coins', 'INDEFINIDO')}"))
+        print(bold_rainbow_text(f"  >> DINHEIRO : ${response.get('moneys', 'INDEFINIDO')}"))
     else:
         print(bold_rainbow_text("ERROR: DADOS AUSENTE NA RESPOSTA DO SERVIDOR!"))
         sys.exit(0)
@@ -70,13 +64,11 @@ def load_player_data(cpm):
 def load_key_data(cpm):
     response = cpm.get_key_data()
     if response.get('error'):
-        print(bold_rainbow_text("ERROR: DADOS NÃO FORAM BUSCADOS CORRETAMENTE!"))
+        print(bold_rainbow_text(ERROR: DADOS NÃO FORAM BUSCADOS CORRETAMENTE!"))
         sys.exit(0)
     print(bold_rainbow_text("===============[ KEY DETALHES ]==============="))
-    print(bold_rainbow_text(f"  >> CHAVE    : "), end="")
-    console.print(f"[bold white]{response.get('access_key', 'INDEFINIDO')}[/bold white]", end='\n')
-    print(bold_rainbow_text(f"  >> VALIDADE : "), end="")
-    console.print(f"[bold white]{response.get('expire', 'INDEFINIDO')}[/bold white]", end="\n")
+    print(bold_rainbow_text(f"  >> CHAVE    : {response.get('access_key')}"))
+    print(bold_rainbow_text(f"  >> VALIDADE : {response.get('expire')}"))
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
@@ -85,16 +77,16 @@ if __name__ == "__main__":
         print(bold_rainbow_text(centered_banner1))
         print(bold_rainbow_text(centered_banner2))
         print("\n")
-        print(bold_rainbow_text(" INSIRA SEU EMAIL: "), end="")
+        print(bold_rainbow_text("[?] INSIRA SEU EMAIL: "), end="")
         global acc_email
         acc_email = input()
-        print(bold_rainbow_text(" INSIRA SUA SENHA: "), end="")
+        print(bold_rainbow_text("[?] INSIRA SUA SENHA: "), end="")
         acc_password = input()
-        print(bold_rainbow_text(" CHAVE DE ACESSO : "), end="")
+        print(bold_rainbow_text("[?] CHAVE DE ACESSO : "), end="")
         access_key = input()
-        console.print("[bold white] PROCESSANDO: [/bold white]", end="")
+        console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
         if not acc_email or not acc_password or not access_key:
-            sleep(0.5)
+            sleep(1)
             print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
             sleep(1)
             continue
@@ -132,11 +124,11 @@ if __name__ == "__main__":
             
             # Custom Coin
             if service == "1" or service == 1:
-                print(bold_rainbow_text("  VALOR: "), end="")
+                print(bold_rainbow_text("[?] VALOR: "), end="")
                 amount = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 if not amount:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -144,9 +136,9 @@ if __name__ == "__main__":
                 try:
                     amount_int = int(amount)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS!"), end="\n")
-                    sleep(1.0)
+                    sleep(1)
                     continue
                 
                 response = cpm.set_player_coin(amount)
@@ -156,19 +148,19 @@ if __name__ == "__main__":
             
             # Custom Money
             elif service == "2" or service == 2:
-                print(bold_rainbow_text("  VALOR: "), end="")
+                print(bold_rainbow_text("[?] VALOR: "), end="")
                 amount = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 if not amount:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
-                    sleep(1.0)
+                    sleep(1)
                     continue
                 
                 try:
                     amount_int = int(amount)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS!"), end="\n")
                     sleep(1)
                     continue
@@ -180,7 +172,7 @@ if __name__ == "__main__":
             
             # King Rank
             elif service == "3" or service == 3:
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 response = cpm.set_player_rank()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
                 sleep(1)
@@ -188,11 +180,11 @@ if __name__ == "__main__":
                 
             # Set ID
             elif service == "4" or service == 4:
-                print(bold_rainbow_text("  NOVO ID: "), end="")
+                print(bold_rainbow_text("[?] NOVO ID: "), end="")
                 new_id = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 if not new_id:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -204,11 +196,11 @@ if __name__ == "__main__":
             
             # Set Name
             elif service == "5" or service == 5:
-                print(bold_rainbow_text("  NOVO NOME: "), end="")
+                print(bold_rainbow_text("[?] NOVO NOME: "), end="")
                 new_name = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 if not new_name:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -220,11 +212,11 @@ if __name__ == "__main__":
             
             # Delete Account
             elif service == "6" or service == 6:
-                print(bold_rainbow_text("  DIGITE confirmar: "), end="")
+                print(bold_rainbow_text("[?] DIGITE confirmar: "), end="")
                 confirm = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 if not confirm:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -235,14 +227,14 @@ if __name__ == "__main__":
                     sleep(1)
                     break
                 else:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("CANCELANDO OPERAÇÃO"), end="\n")
                     sleep(1)
                     continue
             
             # Delete Friends
             elif service == 7 or service == "7":
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 response = cpm.delete_friends()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
                 sleep(1)
@@ -250,7 +242,7 @@ if __name__ == "__main__":
             
             # Unlock paid cars
             elif service == 8 or service == "8":
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 response = cpm.unlock_paid_cars()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
                 sleep(1)
@@ -258,7 +250,7 @@ if __name__ == "__main__":
             
             # Unlock all cars
             elif service == 9 or service == "9":
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 response = cpm.unlock_all_cars()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
                 sleep(1)
@@ -266,7 +258,7 @@ if __name__ == "__main__":
             
             # Unlock siren in cars
             elif service == 10 or service == "10":
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 response = cpm.unlock_all_cars_sirens()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
                 sleep(1)
@@ -274,11 +266,11 @@ if __name__ == "__main__":
             
             # Unlock car id
             elif service == 11 or service == "11":
-                print(bold_rainbow_text("  DIGITE O ID: "), end="")
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end="")
                 car_id = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end='')
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end='')
                 if not car_id:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -286,7 +278,7 @@ if __name__ == "__main__":
                 try:
                     car_id_int = int(car_id)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS"), end="\n")
                     sleep(1)
                     continue
@@ -298,11 +290,11 @@ if __name__ == "__main__":
 
             # Unlock siren id
             elif service == 12 or service == "12":
-                print(bold_rainbow_text("  DIGITE O ID: "), end="")
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end="")
                 car_id = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end='')
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end='')
                 if not car_id:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -310,7 +302,7 @@ if __name__ == "__main__":
                 try:
                     car_id_int = int(car_id)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS"), end="\n")
                     sleep(1)
                     continue
@@ -322,13 +314,13 @@ if __name__ == "__main__":
             
             # Custom torque
             elif service == 13 or service == "13":
-                print(bold_rainbow_text("  DIGITE O ID: "), end="")
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end="")
                 car_id = input()
-                print(bold_rainbow_text("  DIGITE O NOVO TORQUE: "), end="")
+                print(bold_rainbow_text("[?] DIGITE O NOVO TORQUE: "), end="")
                 new_torque = input()
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end='')
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end='')
                 if not car_id or not new_torque:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -337,7 +329,7 @@ if __name__ == "__main__":
                     car_id_int = int(car_id)
                     new_torque_int = int(new_torque)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS"))
                     sleep(1)
                     continue
@@ -349,11 +341,11 @@ if __name__ == "__main__":
             
             # Remove front parts
             elif service == 14 or service == "14":
-                print(bold_rainbow_text("  DIGITE O ID: "), end='')
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end='')
                 car_id = input()
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end="")
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end="")
                 if not car_id:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -361,7 +353,7 @@ if __name__ == "__main__":
                 try:
                     car_id_int = int(car_id)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS"))
                     sleep(1)
                     continue
@@ -377,7 +369,7 @@ if __name__ == "__main__":
                 car_id = input()
                 console.print('[bold white][%] PROCESSANDO: [/bold white]', end="")
                 if not car_id:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -385,7 +377,7 @@ if __name__ == "__main__":
                 try:
                     car_id_int = int(car_id)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("DIGITE APENAS NÚMEROS"))
                     sleep(1)
                     continue
@@ -397,7 +389,7 @@ if __name__ == "__main__":
             
             # Unlock all cars max milleage
             elif service == 16 or service == "16":
-                console.print("[bold white]  PROCESSANDO: [/bold white]", end="")
+                console.print("[bold white][%] PROCESSANDO: [/bold white]", end="")
                 response = cpm.unlock_all_cars_max_milleage()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end="\n")
                 sleep(1)
@@ -405,11 +397,11 @@ if __name__ == "__main__":
             
             # Unlock car id max milleage 
             elif service == 17 or service == '17':
-                print(bold_rainbow_text("  DIGITE O ID: "), end='')
+                print(bold_rainbow_text("[?] DIGITE O ID: "), end='')
                 car_id = input()
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 if not car_id:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text('NÃO DEIXE NADA EM BRANCO'), end='\n')
                     sleep(1)
                     continue
@@ -417,7 +409,7 @@ if __name__ == "__main__":
                 try:
                     car_id_int = int(car_id)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text('DIGITE APENAS NÚMEROS'), end="\n")
                     sleep(1)
                     continue
@@ -429,7 +421,7 @@ if __name__ == "__main__":
             
             # Unlock W16
             elif service == 18 or service == '18':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_w16()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -437,7 +429,7 @@ if __name__ == "__main__":
             
             # Unlock horns
             elif service == 19 or service == '19':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_horns()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -445,7 +437,7 @@ if __name__ == "__main__":
             
             # Disable Engine Damage
             elif service == 20 or service == '20':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.disable_engine_damage()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -453,7 +445,7 @@ if __name__ == "__main__":
             
             # Unlimited Fuel
             elif service == 21 or service == '21':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlimited_fuel()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -461,7 +453,7 @@ if __name__ == "__main__":
             
             # Unlock House
             elif service == 22 or service == '22':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_house()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -469,7 +461,7 @@ if __name__ == "__main__":
                 
             # Unlock Smoke
             elif service == 23 or service == '23':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_smoke()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -477,7 +469,7 @@ if __name__ == "__main__":
             
             # Unlock Wheels
             elif service == 24 or service == '24':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_wheels()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -485,7 +477,7 @@ if __name__ == "__main__":
                 
             # Unlock Animations
             elif service == 25 or service == '25':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_animations()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -493,7 +485,7 @@ if __name__ == "__main__":
             
             # Unlock Cosmetics
             elif service == 26 or service == '26':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_cosmetics()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -501,11 +493,11 @@ if __name__ == "__main__":
             
             # Set Races Wins
             elif service == 27 or service == '27':
-                print(bold_rainbow_text('  QUANTIDADE: '), end='')
+                print(bold_rainbow_text('[?] QUANTIDADE: '), end='')
                 amount = input()
-                console.print('[bold white]  PROCESSANDO: ', end='')
+                console.print('[bold white][%] PROCESSANDO: ', end='')
                 if not amount:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -513,7 +505,7 @@ if __name__ == "__main__":
                 try:
                     amount_int = int(amount)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text('DIGITE APENAS NÚMEROS'), end="\n")
                     sleep(1)
                     continue
@@ -525,11 +517,11 @@ if __name__ == "__main__":
             
             # Set Races Loses
             elif service == 28 or service == '28':
-                print(bold_rainbow_text('  QUANTIDADE: '), end='')
+                print(bold_rainbow_text('[?] QUANTIDADE: '), end='')
                 amount = input()
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 if not amount:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text("NÃO DEIXE NADA EM BRANCO"), end="\n")
                     sleep(1)
                     continue
@@ -537,7 +529,7 @@ if __name__ == "__main__":
                 try:
                     amount_int = int(amount)
                 except ValueError:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text('DIGITE APENAS NÚMEROS'), end="\n")
                     sleep(1)
                     continue
@@ -549,7 +541,7 @@ if __name__ == "__main__":
             
             # Complete All Levels
             elif service == 29 or service == '29':
-                console.print("[bold white]  PROCESSANDO: ", end='')
+                console.print("[bold white][%] PROCESSANDO: ", end='')
                 response = cpm.complete_all_levels()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -557,7 +549,7 @@ if __name__ == "__main__":
             
             # Reset All Levels
             elif service == 30 or service == '30':
-                console.print("[bold white]  PROCESSANDO: ", end='')
+                console.print("[bold white][%] PROCESSANDO: ", end='')
                 response = cpm.reset_all_levels()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -565,14 +557,14 @@ if __name__ == "__main__":
             
             # Clone Cars
             elif service == 31 or service == '31':
-                print(bold_rainbow_text('  EMAIL RECEBEDOR: '), end='')
+                print(bold_rainbow_text('[?] EMAIL RECEBEDOR: '), end='')
                 clon_email = input()
-                print(bold_rainbow_text('  SENHA: '), end='')
+                print(bold_rainbow_text('[?] SENHA: '), end='')
                 clon_password = input()
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                console.print('[bold white][%] PROCESSANDO: [/bold white]', end='')
                 
                 if not clon_email or not clon_password:
-                    sleep(0.5)
+                    sleep(1)
                     print(bold_rainbow_text('NÃO DEIXE NADA EM BRANCO'), end='\n')
                     sleep(1)
                     continue
@@ -583,10 +575,10 @@ if __name__ == "__main__":
                 continue
             
             elif service == 00 or service == '00' or service == 0 or service == '0':
-                print(bold_rainbow_text('  Saindo...'))
+                print(bold_rainbow_text('[!] Saindo...'))
                 sys.exit(0)
             
             else:
-                print(bold_rainbow_text('  OPCÃO INVÁLIDA'))
+                print(bold_rainbow_text('[!] OPCÃO INVÁLIDA'))
                 sleep(1)
                 continue
