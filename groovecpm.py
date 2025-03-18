@@ -1,3 +1,4 @@
+
 import requests
 
 BASE_URL: str = "https://groovecpm.squareweb.app"
