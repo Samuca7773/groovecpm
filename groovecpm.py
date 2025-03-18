@@ -1,7 +1,7 @@
 import requests
 
-BASE_URL: str = "https://groovecpm.squareweb.app"
-
+#BASE_URL: str = "https://groovecpm.squareweb.app"
+BASE_URL: str = "http://0.0.0.0:8000"
 class GrooveCPM:
     def __init__(self, access_key):
         self.auth_token = None
@@ -47,7 +47,7 @@ class GrooveCPM:
     
     def delete_account(self):
         return self.res("delete_account", {"auth": self.auth_token})
-
+    
     def get_player_data(self):
         return self.res("get_player_data", {"auth": self.auth_token})
 
