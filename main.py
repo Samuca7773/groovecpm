@@ -11,10 +11,9 @@ __TELEGRAM__ = "Samuca_007"
 __CHANNEL__ = "t.me/GrupoCarParking"
 
 def bold_rainbow_text(text):
-    text_colored = Colorate.Horizontal(Colors.green_to_yellow, text)
-    return f"\033[1m{text_colored}\033[0m"
-
-print(bold_rainbow_text("INSIRA SEU EMAIL:"))
+    text_colored = Colorate.Horizontal(Colors.blue_to_purple, text)
+    return f"\033[34m{text_colored}\033[0m"
+    
 
 
 banner = '''
@@ -35,7 +34,7 @@ banner2 = '''
 '''
 
 def signal_handler(sig, frame):
-    print(bold_rainbow_text("[!] Saindo..."))
+    print(bold_rainbow_text("  Saindo..."))
     sys.exit(0)
 
 def center_text(text):
@@ -120,14 +119,14 @@ if __name__ == "__main__":
                 "LIBERAR SIRENE EM CARROS", "LIBERAR CARRO POR ID", "LIBERAR SIRENE POR ID",
                 "CUSTOM TORQUE EM CARRO POR ID", "REMOVER FRENTE DO CARRO POR ID",
                 "REMOVER TRÁS DO CARRO POR ID", "LIBERAR KM MÁXIMO EM TODOS CARROS",
-                "LIBERAR KM MÁXIMO EM CARRO POR ID", "LIBERAR W16", "LIBERAR BUZINAS",
+                "LIBERAR KM MÁXIMO EM CARRO POR ID", "LIBERAR FREIO MÁXIMO EM TODOS CARROS", "LIBERAR W16", "LIBERAR BUZINAS",
                 "DESATIVAR DANO NO MOTOR", "LIBERAR GASOLINA ILIMITADA", "LIBERAR CASA PAGA",
                 "LIBERAR FUMAÇA", "LIBERAR RODAS", "LIBERAR ANIMAÇÕES", "LIBERAR ROUPAS",
-                "CUSTOM CORRIDAS GANHAS", "CUSTOM CORRIDAS PERDIDAS", "COMPLETAR LEVELS",
+                "LIBERAR TODOS OS MECS", "CUSTOM CORRIDAS GANHAS", "CUSTOM CORRIDAS PERDIDAS", "COMPLETAR LEVELS",
                 "RESETAR LEVELS", "CLONAR CARROS"
             ], start=1):
-               console.print(f"  [[bold green]{i:02}[/bold green]] [bold white]{option}[/bold white]")
-            console.print("  [[bold green]00[/bold green]] SAIR")
+               console.print(f"  [[bold purple]{i:02}[/bold purple]] [bold white]{option}[/bold white]")
+            console.print("  [[bold purple]00[/bold purple]] SAIR")
             print(bold_rainbow_text("===================[ CPM✩ ]==================="))
             service = input(bold_rainbow_text("  SELECIONE O SERVIÇO: "))
             
@@ -428,8 +427,16 @@ if __name__ == "__main__":
                 sleep(1)
                 continue
             
-            # Unlock W16
+            # Unlock max brake
             elif service == 18 or service == '18':
+                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+                response = cpm.unlock_all_cars_max_brake()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+            
+            # Unlock w16
+            elif service == 19 or service == '19':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_w16()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
@@ -437,71 +444,79 @@ if __name__ == "__main__":
                 continue
             
             # Unlock horns
-            elif service == 19 or service == '19':
+            elif service == 20 or service == '20':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_horns()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
             
-            # Disable Engine Damage
-            elif service == 20 or service == '20':
+            # Unlock disable engine damage
+            elif service == 21 or service == '21':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.disable_engine_damage()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
             
-            # Unlimited Fuel
-            elif service == 21 or service == '21':
+            # Unlimites fuel
+            elif service == 22 or service == '22':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlimited_fuel()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
-            
-            # Unlock House
-            elif service == 22 or service == '22':
+                
+            # Unlock house
+            elif service == 23 or service == '23':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_house()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
-                
-            # Unlock Smoke
-            elif service == 23 or service == '23':
+            
+            # Unlock smoke
+            elif service == 24 or service == '24':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_smoke()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
-            
+                
             # Unlock Wheels
-            elif service == 24 or service == '24':
+            elif service == 25 or service == '25':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_wheels()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
-                
+            
             # Unlock Animations
-            elif service == 25 or service == '25':
+            elif service == 26 or service == '26':
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
                 response = cpm.unlock_animations()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
             
-            # Unlock Cosmetics
-            elif service == 26 or service == '26':
-                console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
+            # Unlock cosmetics
+            elif service == 27 or service == "27":
+                console.print("[bold white] PROCESSANDO: [/bold white]", end='')
                 response = cpm.unlock_cosmetics()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
                 continue
             
-            # Set Races Wins
-            elif service == 27 or service == '27':
+            # Unlock all mecs
+            elif service == 28 or service == "28":
+                console.print("[bold white] PROCESSANDO: [/bold white]", end='')
+                response = cpm.unlock_all_mecs()
+                print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
+                sleep(1)
+                continue
+                
+            # Set races wins
+            elif service == 29 or service == '29':
                 print(bold_rainbow_text('  QUANTIDADE: '), end='')
                 amount = input()
                 console.print('[bold white]  PROCESSANDO: ', end='')
@@ -525,7 +540,7 @@ if __name__ == "__main__":
                 continue
             
             # Set Races Loses
-            elif service == 28 or service == '28':
+            elif service == 30 or service == '30':
                 print(bold_rainbow_text('  QUANTIDADE: '), end='')
                 amount = input()
                 console.print('[bold white]  PROCESSANDO: [/bold white]', end='')
@@ -549,7 +564,7 @@ if __name__ == "__main__":
                 continue
             
             # Complete All Levels
-            elif service == 29 or service == '29':
+            elif service == 31 or service == '31':
                 console.print("[bold white]  PROCESSANDO: ", end='')
                 response = cpm.complete_all_levels()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
@@ -557,7 +572,7 @@ if __name__ == "__main__":
                 continue
             
             # Reset All Levels
-            elif service == 30 or service == '30':
+            elif service == 32 or service == '32':
                 console.print("[bold white]  PROCESSANDO: ", end='')
                 response = cpm.reset_all_levels()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
@@ -565,7 +580,7 @@ if __name__ == "__main__":
                 continue
             
             # Clone Cars
-            elif service == 31 or service == '31':
+            elif service == 33 or service == '33':
                 print(bold_rainbow_text('  EMAIL RECEBEDOR: '), end='')
                 clon_email = input()
                 print(bold_rainbow_text('  SENHA: '), end='')

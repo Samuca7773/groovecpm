@@ -1,8 +1,7 @@
 
 import requests
 
-BASE_URL: str = "https://groovecpm.squareweb.app"
-
+BASE_URL: str = "https://groovecpmapi.squareweb.app"
 class GrooveCPM:
     def __init__(self, access_key):
         self.auth_token = None
@@ -141,7 +140,10 @@ class GrooveCPM:
     
     def unlock_car_id_max_milleage(self, car_id):
         return self.res("unlock_car_id_max_milleage", {'auth': self.auth_token, "car_id": car_id})
-            
+    
+    def unlock_all_cars_max_brake(self):
+    	return self.res("unlock_all_cars_max_brake", {"auth": self.auth_token})
+    
     def clone_cars(self, email, password):
         payload = {
             "auth": self.auth_token,
@@ -149,3 +151,6 @@ class GrooveCPM:
             "password": password
         }
         return self.res("clone_cars", payload)
+    
+    def unlock_all_mecs(self):
+    	return self.res("unlock_all_mecs", {"auth": self.auth_token})
