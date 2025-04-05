@@ -501,7 +501,7 @@ if __name__ == "__main__":
             
             # Unlock cosmetics
             elif service == 27 or service == "27":
-                console.print("[bold white] PROCESSANDO: [/bold white]", end='')
+                console.print("[bold white]  PROCESSANDO: [/bold white]", end='')
                 response = cpm.unlock_cosmetics()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
@@ -509,7 +509,7 @@ if __name__ == "__main__":
             
             # Unlock all mecs
             elif service == 28 or service == "28":
-                console.print("[bold white] PROCESSANDO: [/bold white]", end='')
+                console.print("[bold white]  PROCESSANDO: [/bold white]", end='')
                 response = cpm.unlock_all_mecs()
                 print(bold_rainbow_text(response.get('message', 'INDEFINIDO')), end='\n')
                 sleep(1)
